@@ -11,6 +11,9 @@
 
   --primary-color: #4d5b9e;
   --secondary-color: #d6dbf5;
+
+  --success-color: #94d7a2;
+  --failure-color: #f8bcbc;
 }
 
 body {
@@ -64,6 +67,13 @@ label {
 input[type="radio"]:checked + label {
   background-color: var(--secondary-color);
   border: 1px solid transparent;
+}
+
+.answer-correct {
+  background-color: var(--success-color);
+}
+.answer-incorrect {
+  background-color: var(--failure-color);
 }
 
 .submit-btn {
