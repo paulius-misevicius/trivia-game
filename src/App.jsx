@@ -1,11 +1,14 @@
 import { useState, createContext } from "react"
 import { nanoid } from "nanoid"
+import { TailSpin } from "react-loader-spinner"
 import he from "he"
 import Question from "./Question.jsx"
 
 export const GameStateContext = createContext(null)
 
 export default function App() {
+
+//
 
   const GAME_STATE = {
     INTRO: "intro",
@@ -31,6 +34,8 @@ export default function App() {
       userAnswers={submittedAnswers}
     />
   )
+  const loadSpinner = <TailSpin width="40" color="var(--primary-color)"/>
+//
 
   async function getQuestions() {
     setGameState(GAME_STATE.LOADING)
@@ -74,11 +79,15 @@ export default function App() {
   return (
     <GameStateContext.Provider value={{gameState, GAME_STATE}}>
       <main>
-        <form action={submitQuiz}>
-          {questionsToRender}
-          {gameState === GAME_STATE.STARTED && <button className="submit-btn">Submit quiz</button>}
-        </form>
-        <button className="get-questions-btn" onClick={getQuestions}>Get questions</button>
+        {gameState === GAME_STATE.LOADING ? loadSpinner :
+          <form action={submitQuiz}>
+            <div>
+              {questionsToRender}
+            </div>
+            {gameState === GAME_STATE.STARTED && <button className="submit-btn">Submit quiz</button>}
+          </form>
+        }
+        {gameState !== GAME_STATE.STARTED && <button className="get-questions-btn" onClick={getQuestions}>Get questions</button>}
       </main>
     </GameStateContext.Provider>
   )
