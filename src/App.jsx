@@ -82,17 +82,27 @@ export default function App() {
     <GameStateContext.Provider value={{gameState, GAME_STATE}}>
       <main>
         {gameState === GAME_STATE.LOADING ? loadSpinner :
-          <form action={submitQuiz}>
-            <div>
-              {questionsToRender}
-            </div>
-            {gameState === GAME_STATE.STARTED && <button className="submit-btn">Check answers</button>}
-          </form>
+          <>
+            {gameState === GAME_STATE.INTRO &&
+              <section className="intro-section">
+                <h1>Trivia Game</h1>
+                <p className="intro-description">Simple trivia quiz game built with React and Vite</p>
+                <button className="get-questions-btn" onClick={getQuestions}>Start quiz</button>
+              </section>}
+            {gameState === GAME_STATE.STARTED || GAME_STATE.FINISHED ?
+              <form action={submitQuiz}>
+                <div>
+                  {questionsToRender}
+                </div>
+                {gameState === GAME_STATE.STARTED && <button className="submit-btn">Check answers</button>}
+              </form> : null}
+            {gameState === GAME_STATE.FINISHED &&
+              <section className="score-section">
+                <p className="score">You scored {userScore}/{questions.length} correct answers</p>
+                <button className="get-questions-btn" onClick={getQuestions}>Play again</button>
+              </section>}
+          </>
         }
-        <section className="score-section">
-          {gameState === GAME_STATE.FINISHED && <p className="score">You scored {userScore}/{questions.length} correct answers</p>}
-          {gameState !== GAME_STATE.STARTED && <button className="get-questions-btn" onClick={getQuestions}>Start quiz</button>}
-        </section>
       </main>
     </GameStateContext.Provider>
   )

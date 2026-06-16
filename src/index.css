@@ -39,6 +39,11 @@ form {
   align-items: center;
   justify-content: center;
 }
+h1 {
+  font-family: 'Karla', sans-serif;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
 h2 {
   font-family: 'Karla', sans-serif;
   font-weight: 700;
@@ -47,6 +52,13 @@ button {
   font-family: 'Inter', sans-serif;
   cursor: pointer;
   border: none;
+}
+
+.intro-section {
+  text-align: center;
+}
+.intro-description {
+  margin-bottom: 20px;
 }
 
 .question-component {
