@@ -1,8 +1,13 @@
 import { useState } from "react"
+import { nanoid } from "nanoid"
+import he from "he"
+import Question from "./Question.jsx"
 
 export default function App() {
 
   const [questions, setQuestions] = useState([])
+
+  const questionsToRender = questions.map(item => <Question key={item.id} id={item.id} title={item.question} answers={item.answers}/>)
 
   async function getQuestions() {
     try {
@@ -11,7 +16,17 @@ export default function App() {
         throw new Error(`API error: ${response.status}`)
       }
       const data = await response.json()
-      setQuestions(data.results)
+      const updatedQuestions = data.results.map(item => {
+        const randomIndex = Math.floor(Math.random() * (data.results.length + 1))
+        const shuffledAnswers = [...item.incorrect_answers.slice(0, randomIndex), item.correct_answer, ...item.incorrect_answers.slice(randomIndex)]
+        return {
+          ...item,
+          id: nanoid(),
+          question: he.decode(item.question),
+          answers: shuffledAnswers.map(item => he.decode(item))
+        }
+      })
+      setQuestions(updatedQuestions)
     }
     catch (err) {
       console.log(err.message)
@@ -29,54 +44,7 @@ export default function App() {
   return (
     <main>
       <form action={submitQuiz}>
-        <section className="question-component">
-          <h2 className="question-name">How would one say goodbye in Spanish?</h2>
-          <div className="question-answer-field">
-            <input type="radio" id="q-1-a-1" name="q-1" value="Adiós"></input>
-            <label htmlFor="q-1-a-1">Adiós</label>
-
-            <input type="radio" id="q-1-a-2" name="q-1" value="Hola"></input>
-            <label htmlFor="q-1-a-2">Hola</label>
-
-            <input type="radio" id="q-1-a-3" name="q-1" value="Au Revoir"></input>
-            <label htmlFor="q-1-a-3">Au Revoir</label>
-
-            <input type="radio" id="q-1-a-4" name="q-1" value="Salir"></input>
-            <label htmlFor="q-1-a-4">Salir</label>
-          </div>
-        </section>
-        <section className="question-component">
-          <h2 className="question-name">Which best selling toy of 1983 caused hysteria, resulting in riots breaking in stores?</h2>
-          <div className="question-answer-field">
-            <input type="radio" id="q-2-a-1" name="q-2" value="Cabbage Patch Kids"></input>
-            <label htmlFor="q-2-a-1">Cabbage Patch Kids</label>
-
-            <input type="radio" id="q-2-a-2" name="q-2" value="Transformers"></input>
-            <label htmlFor="q-2-a-2">Transformers</label>
-
-            <input type="radio" id="q-2-a-3" name="q-2" value="Care Bears"></input>
-            <label htmlFor="q-2-a-3">Care Bears</label>
-
-            <input type="radio" id="q-2-a-4" name="q-2" value="Rubik’s Cube"></input>
-            <label htmlFor="q-2-a-4">Rubik’s Cube</label>
-          </div>
-        </section>
-        <section className="question-component">
-          <h2 className="question-name">What is the hottest planet in our Solar System?</h2>
-          <div className="question-answer-field">
-            <input type="radio" id="q-3-a-1" name="q-3" value="Mercury"></input>
-            <label htmlFor="q-3-a-1">Mercury</label>
-
-            <input type="radio" id="q-3-a-2" name="q-3" value="Venus"></input>
-            <label htmlFor="q-3-a-2">Venus</label>
-
-            <input type="radio" id="q-3-a-3" name="q-3" value="Mars"></input>
-            <label htmlFor="q-3-a-3">Mars</label>
-
-            <input type="radio" id="q-3-a-4" name="q-3" value="Saturn"></input>
-            <label htmlFor="q-3-a-4">Saturn</label>
-          </div>
-        </section>
+        {questionsToRender}
         <button className="submit-btn">Submit quiz</button>
       </form>
       <button className="get-questions-btn" onClick={getQuestions}>Get questions</button>
