@@ -11,12 +11,13 @@ export default function Answer(props) {
 
     const answerStyle = clsx({
         "answer-correct" : isAnswerCorrect,
-        "answer-incorrect" : isAnswerUserGuessed && !isAnswerCorrect
+        "answer-incorrect" : isAnswerUserGuessed && !isAnswerCorrect,
+        "answer-disabled" : !isAnswerCorrect
     })
 
     return (
         <>
-            <input type="radio" id={props.id} name={props.questionId} value={props.answer}></input>
+            <input type="radio" id={props.id} name={props.questionId} value={props.answer} disabled={gameState === GAME_STATE.FINISHED} required></input>
             <label className={gameState === GAME_STATE.FINISHED ? answerStyle : undefined} htmlFor={props.id}>{props.answer}</label>
         </>
     )

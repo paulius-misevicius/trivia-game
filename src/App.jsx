@@ -60,6 +60,7 @@ export default function App() {
   }
 
   function submitQuiz(formData) {
+    console.log("submitting")
     const userAnswers = questionsToRender.map(item => {
       return {
         key: item.key,
@@ -75,7 +76,7 @@ export default function App() {
       <main>
         <form action={submitQuiz}>
           {questionsToRender}
-          <button className="submit-btn">Submit quiz</button>
+          {gameState === GAME_STATE.STARTED && <button className="submit-btn">Submit quiz</button>}
         </form>
         <button className="get-questions-btn" onClick={getQuestions}>Get questions</button>
       </main>
