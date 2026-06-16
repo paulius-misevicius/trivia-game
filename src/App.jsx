@@ -9,7 +9,6 @@ export const GameStateContext = createContext(null)
 export default function App() {
 
 //
-
   const GAME_STATE = {
     INTRO: "intro",
     LOADING: "loading",
@@ -18,9 +17,9 @@ export default function App() {
     ERROR: "error"
   }
 
+  const [gameState, setGameState] = useState(GAME_STATE.INTRO)
   const [questions, setQuestions] = useState([])
   const [submittedAnswers, setSubmittedAnswers] = useState([])
-  const [gameState, setGameState] = useState(GAME_STATE.INTRO)
 
   console.log(gameState)
 
@@ -34,13 +33,16 @@ export default function App() {
       userAnswers={submittedAnswers}
     />
   )
+  const userScore = submittedAnswers.filter((item, index) => 
+    item.answer === questions[index].correct_answer && item.key === questions[index].id
+  ).length
   const loadSpinner = <TailSpin width="40" color="var(--primary-color)"/>
 //
-
+  console.log(userScore)
   async function getQuestions() {
     setGameState(GAME_STATE.LOADING)
     try {
-      const response = await fetch('https://opentdb.com/api.php?amount=5')
+      const response = await fetch('https://opentdb.com/api.php?amount=7')
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`)
       }
@@ -84,10 +86,13 @@ export default function App() {
             <div>
               {questionsToRender}
             </div>
-            {gameState === GAME_STATE.STARTED && <button className="submit-btn">Submit quiz</button>}
+            {gameState === GAME_STATE.STARTED && <button className="submit-btn">Check answers</button>}
           </form>
         }
-        {gameState !== GAME_STATE.STARTED && <button className="get-questions-btn" onClick={getQuestions}>Get questions</button>}
+        <section className="score-section">
+          {gameState === GAME_STATE.FINISHED && <p className="score">You scored {userScore}/{questions.length} correct answers</p>}
+          {gameState !== GAME_STATE.STARTED && <button className="get-questions-btn" onClick={getQuestions}>Start quiz</button>}
+        </section>
       </main>
     </GameStateContext.Provider>
   )
