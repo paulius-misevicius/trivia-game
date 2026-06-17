@@ -128,6 +128,7 @@ input[type="radio"]:checked + label {
   color: var(--bg-color);
   padding: 8px 24px;
   border-radius: 8px;
+  margin-bottom: 20px;
 }
 .submit-btn {
   font-weight: 600;

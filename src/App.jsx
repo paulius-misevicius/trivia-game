@@ -1,4 +1,4 @@
-import { useState, createContext } from "react"
+import { useState, useEffect, useRef, createContext } from "react"
 import { nanoid } from "nanoid"
 import { TailSpin } from "react-loader-spinner"
 import he from "he"
@@ -19,10 +19,10 @@ export default function App() {
     ERROR: "error"
   }
   const GAME_SETTINGS = {
-    AMOUNT: "5",
-    CATEGORY: "",
-    DIFFICULTY: "",
-    TYPE: ""
+    amount: "5",
+    category: "",
+    difficulty: "",
+    type: ""
   }
 
   // State values
@@ -30,13 +30,15 @@ export default function App() {
   const [gameSettings, setGameSettings] = useState(GAME_SETTINGS)
   const [questions, setQuestions] = useState([])
   const [submittedAnswers, setSubmittedAnswers] = useState([])
+  const prevScoresRef = useRef([])
 
   // Derived Values
+
   const fetchUrl = `https://opentdb.com/api.php?
-    amount=${gameSettings.AMOUNT}&
-    category=${gameSettings.CATEGORY}&
-    difficulty=${gameSettings.DIFFICULTY}&
-    type=${gameSettings.TYPE}`
+    amount=${gameSettings.amount}&
+    category=${gameSettings.category}&
+    difficulty=${gameSettings.difficulty}&
+    type=${gameSettings.type}`
 
   const questionsToRender = questions.map((item, index) => 
     <Question 
@@ -48,9 +50,6 @@ export default function App() {
       userAnswers={submittedAnswers}
     />
   )
-  const userScore = submittedAnswers.filter((item, index) => 
-    item.answer === questions[index].correct_answer && item.key === questions[index].id
-  ).length
 
   // Static values
   const loadSpinner = <TailSpin width="40" color="var(--primary-color)"/>
@@ -58,6 +57,8 @@ export default function App() {
   // Functions
   async function getQuestions() {
     setGameState(GAME_STATE.LOADING)
+    setSubmittedAnswers([])
+
     try {
       const response = await fetch(fetchUrl)
       if (!response.ok) {
@@ -77,6 +78,7 @@ export default function App() {
       setQuestions(updatedQuestions)
       setGameState(GAME_STATE.STARTED)
     }
+
     catch (err) {
       console.log(err.message)
       setGameState(GAME_STATE.ERROR)
@@ -90,12 +92,21 @@ export default function App() {
         answer: formData.get(item.key)
       }
     })
+
+    const correctAnswerAmount = userAnswers.filter((item, index) => 
+      item.answer === questions[index].correct_answer && item.key === questions[index].id
+    ).length
+    const userScore = `${correctAnswerAmount}/${questions.length}`
+    prevScoresRef.current = [userScore, ...prevScoresRef.current]
+
     setSubmittedAnswers(userAnswers)
     setGameState(GAME_STATE.FINISHED)
   }
 
+  console.log(prevScoresRef.current)
+
   return (
-    <GameSettingsContext.Provider value={{gameSettings, setGameSettings, GAME_SETTINGS}}>
+    <GameSettingsContext.Provider value={{gameSettings, setGameSettings}}>
       <GameStateContext.Provider value={{gameState, GAME_STATE}}>
         <main>
           {gameState === GAME_STATE.LOADING ? loadSpinner :
@@ -106,6 +117,7 @@ export default function App() {
                     <h1>Trivia Game</h1>
                     <p className="intro-description">Simple trivia quiz game built with React and Vite</p>
                     <button className="start-quiz-btn" onClick={getQuestions}>Start quiz</button>
+                    <p>Recent scores: {prevScoresRef.current.join(" - ")}</p>
                   </section>
                   <Settings />
                 </>}
@@ -118,9 +130,9 @@ export default function App() {
                 </form> : null}
               {gameState === GAME_STATE.FINISHED &&
                 <section className="score-section">
-                  <button className="save-settings-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Back to start</button>
+                  <button className="start-quiz-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Back to start</button>
                   <div className="align-sbs">
-                    <p className="score">You scored {userScore}/{questions.length} correct answers</p>
+                    <p className="score">You scored {prevScoresRef.current[0]} correct answers</p>
                     <button className="get-questions-btn" onClick={getQuestions}>Play again</button>
                   </div>
                 </section>}
