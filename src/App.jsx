@@ -38,7 +38,7 @@ export default function App() {
     difficulty=${gameSettings.DIFFICULTY}&
     type=${gameSettings.TYPE}`
 
-    const questionsToRender = questions.map((item, index) => 
+  const questionsToRender = questions.map((item, index) => 
     <Question 
       key={item.id} 
       id={item.id} 
@@ -93,7 +93,7 @@ export default function App() {
     setSubmittedAnswers(userAnswers)
     setGameState(GAME_STATE.FINISHED)
   }
-  console.log(gameState)
+
   return (
     <GameSettingsContext.Provider value={{gameSettings, setGameSettings, GAME_SETTINGS}}>
       <GameStateContext.Provider value={{gameState, GAME_STATE}}>

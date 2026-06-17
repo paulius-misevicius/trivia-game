@@ -20,46 +20,51 @@ export default function Settings() {
     ]
     const gameTypesToRender = gameTypes.map(item => <option key={item.value} value={item.key}>{item.value}</option>)
 
-    function saveSettings(formData) {
-        let GAME_SETTINGS_UPDATED = {...GAME_SETTINGS}
-        GAME_SETTINGS_UPDATED = {
-            AMOUNT: formData.get("amount"),
-            CATEGORY: formData.get("category"),
-            DIFFICULTY: formData.get("difficulty"),
-            TYPE: formData.get("type")
+    function saveSettingsChanges(event) {
+        let GAME_SETTINGS_UPDATED = {...gameSettings}
+        if (event.target.name === "amount") {
+            GAME_SETTINGS_UPDATED = {...GAME_SETTINGS_UPDATED, AMOUNT: event.target.value}
+        }
+        if (event.target.name === "category") {
+            GAME_SETTINGS_UPDATED = {...GAME_SETTINGS_UPDATED, CATEGORY: event.target.value}
+        }
+        if (event.target.name === "difficulty") {
+            GAME_SETTINGS_UPDATED = {...GAME_SETTINGS_UPDATED, DIFFICULTY: event.target.value}
+        }
+        if (event.target.name === "type") {
+            GAME_SETTINGS_UPDATED = {...GAME_SETTINGS_UPDATED, TYPE: event.target.value}
         }
         setGameSettings(GAME_SETTINGS_UPDATED)
     }
     console.log(gameSettings)
     return (
-        <form action={saveSettings} className="quiz-settings">
+        <section className="quiz-settings">
             <p>Quiz settings</p>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="amount">Amount:</label>
-                <input name="amount" id="amount" type="number" defaultValue={gameSettings.AMOUNT} min="1" max="50"></input>
+                <input onChange={saveSettingsChanges} name="amount" id="amount" type="number" defaultValue={gameSettings.AMOUNT} min="1" max="50"></input>
             </div>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="category">Category:</label>
-                <select name="category" id="category" key={gameSettings.CATEGORY} defaultValue={gameSettings.CATEGORY}>
+                <select onChange={saveSettingsChanges} name="category" id="category" defaultValue={gameSettings.CATEGORY}>
                     <option value="">Any</option>
                     {gameCategoriesToRender}
                 </select>
             </div>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="difficulty">Difficulty:</label>
-                <select name="difficulty" id="difficulty" key={gameSettings.DIFFICULTY} defaultValue={gameSettings.DIFFICULTY}>
+                <select onChange={saveSettingsChanges} name="difficulty" id="difficulty" defaultValue={gameSettings.DIFFICULTY}>
                     <option value="">Any</option>
                     {gameDifficultiesToRender}
                 </select>
             </div>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="type">Type:</label>
-                <select name="type" id="type" key={gameSettings.TYPE} defaultValue={gameSettings.TYPE}>
+                <select onChange={saveSettingsChanges} name="type" id="type" defaultValue={gameSettings.TYPE}>
                     <option value="">Any</option>
                     {gameTypesToRender}
                 </select>
             </div>
-            <button className="save-settings-btn">Save settings</button>
-        </form>
+        </section>
     )
 }
