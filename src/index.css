@@ -33,12 +33,6 @@ main {
   padding: 20px 40px;
   border-radius: 20px;
 }
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 h1 {
   font-family: 'Karla', sans-serif;
   font-weight: 700;
@@ -61,6 +55,12 @@ button {
   margin-bottom: 20px;
 }
 
+.form-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .question-component {
   padding-block: 24px;
   border-bottom: 1px solid var(--secondary-color);
@@ -118,6 +118,13 @@ input[type="radio"]:checked + label {
   font-weight: 700;
 }
 
+.start-quiz-btn {
+  font-weight: 600;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  padding: 8px 24px;
+  border-radius: 8px;
+}
 .submit-btn {
   font-weight: 600;
   background-color: var(--primary-color);
@@ -134,4 +141,29 @@ input[type="radio"]:checked + label {
   border-radius: 8px;
   border: 1px solid var(--text-color);
 }
+.save-settings-btn {
+  font-weight: 600;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--text-color);
+}
 
+.quiz-settings {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 16px;
+  margin-top: 28px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.settings-label {
+  border: none;
+  padding: 0;
+}
