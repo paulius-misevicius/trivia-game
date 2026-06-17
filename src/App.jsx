@@ -19,7 +19,7 @@ export default function App() {
     ERROR: "error"
   }
   const GAME_SETTINGS = {
-    AMOUNT: 5,
+    AMOUNT: "5",
     CATEGORY: "",
     DIFFICULTY: "",
     TYPE: ""
@@ -37,8 +37,8 @@ export default function App() {
     category=${gameSettings.CATEGORY}&
     difficulty=${gameSettings.DIFFICULTY}&
     type=${gameSettings.TYPE}`
-  console.log(fetchUrl)
-  const questionsToRender = questions.map((item, index) => 
+
+    const questionsToRender = questions.map((item, index) => 
     <Question 
       key={item.id} 
       id={item.id} 
@@ -84,7 +84,6 @@ export default function App() {
   }
 
   function submitQuiz(formData) {
-    console.log("submitting")
     const userAnswers = questionsToRender.map(item => {
       return {
         key: item.key,
@@ -94,7 +93,7 @@ export default function App() {
     setSubmittedAnswers(userAnswers)
     setGameState(GAME_STATE.FINISHED)
   }
-
+  console.log(gameState)
   return (
     <GameSettingsContext.Provider value={{gameSettings, setGameSettings, GAME_SETTINGS}}>
       <GameStateContext.Provider value={{gameState, GAME_STATE}}>
@@ -110,7 +109,7 @@ export default function App() {
                   </section>
                   <Settings />
                 </>}
-              {gameState === GAME_STATE.STARTED || GAME_STATE.FINISHED ?
+              {gameState === GAME_STATE.STARTED || gameState === GAME_STATE.FINISHED ?
                 <form action={submitQuiz} className="form-game">
                   <div>
                     {questionsToRender}
@@ -119,8 +118,11 @@ export default function App() {
                 </form> : null}
               {gameState === GAME_STATE.FINISHED &&
                 <section className="score-section">
-                  <p className="score">You scored {userScore}/{questions.length} correct answers</p>
-                  <button className="get-questions-btn" onClick={getQuestions}>Play again</button>
+                  <button className="save-settings-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Back to start</button>
+                  <div className="align-sbs">
+                    <p className="score">You scored {userScore}/{questions.length} correct answers</p>
+                    <button className="get-questions-btn" onClick={getQuestions}>Play again</button>
+                  </div>
                 </section>}
             </>
           }

@@ -30,31 +30,31 @@ export default function Settings() {
         }
         setGameSettings(GAME_SETTINGS_UPDATED)
     }
-
+    console.log(gameSettings)
     return (
         <form action={saveSettings} className="quiz-settings">
             <p>Quiz settings</p>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="amount">Amount:</label>
-                <input name="amount" id="amount" type="number" defaultValue="5" min="1" max="50"></input>
+                <input name="amount" id="amount" type="number" defaultValue={gameSettings.AMOUNT} min="1" max="50"></input>
             </div>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="category">Category:</label>
-                <select name="category" id="category">
+                <select name="category" id="category" key={gameSettings.CATEGORY} defaultValue={gameSettings.CATEGORY}>
                     <option value="">Any</option>
                     {gameCategoriesToRender}
                 </select>
             </div>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="difficulty">Difficulty:</label>
-                <select name="difficulty" id="difficulty">
+                <select name="difficulty" id="difficulty" key={gameSettings.DIFFICULTY} defaultValue={gameSettings.DIFFICULTY}>
                     <option value="">Any</option>
                     {gameDifficultiesToRender}
                 </select>
             </div>
             <div className="settings-row">
                 <label className="settings-label" htmlFor="type">Type:</label>
-                <select name="type" id="type">
+                <select name="type" id="type" key={gameSettings.TYPE} defaultValue={gameSettings.TYPE}>
                     <option value="">Any</option>
                     {gameTypesToRender}
                 </select>

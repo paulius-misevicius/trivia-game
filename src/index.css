@@ -110,12 +110,16 @@ input[type="radio"]:checked + label {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 20px;
+  justify-content: space-between;
   margin-top: 24px;
 }
 .score {
   font-weight: 700;
+}
+.align-sbs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .start-quiz-btn {
