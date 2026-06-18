@@ -26,15 +26,19 @@ export default function App() {
     type: ""
   }
 
+  // DB values
+  const prevScores = localStorage.getItem("recentScores") === null ? [] : JSON.parse(localStorage.getItem("recentScores"))
+  const prevSettings = localStorage.getItem("quizSettings") === null ? GAME_SETTINGS : JSON.parse(localStorage.getItem("quizSettings"))
+
   // State values
   const [gameState, setGameState] = useState(GAME_STATE.INTRO)
-  const [gameSettings, setGameSettings] = useState(GAME_SETTINGS)
+  const [gameSettings, setGameSettings] = useState(prevSettings)
   const [questions, setQuestions] = useState([])
   const [submittedAnswers, setSubmittedAnswers] = useState([])
-  const prevScoresRef = useRef(["2/5", "5/5", "1/5"])
+  const prevScoresRef = useRef(prevScores)
+  console.log(gameSettings)
 
   // Derived Values
-
   const fetchUrl = `https://opentdb.com/api.php?
   amount=${gameSettings.amount}&
   category=${gameSettings.category}&
@@ -53,8 +57,9 @@ export default function App() {
   userAnswers={submittedAnswers}
   />
   )
+
   const latestScores = prevScoresRef.current.map((item, index) => 
-    <span key={nanoid()} className={clsx("user-score", {"latest-score" : index === 0})}>{item} </span>
+    <span key={nanoid()} className={clsx("user-score", {"latest-score" : index === 0})}>{item}</span>
   )
 
   // Static values
@@ -104,17 +109,19 @@ export default function App() {
     ).length
     const userScore = `${correctAnswerAmount}/${questions.length}`
     prevScoresRef.current = [userScore, ...prevScoresRef.current]
+    localStorage.setItem("recentScores", JSON.stringify(prevScoresRef.current))
 
     setSubmittedAnswers(userAnswers)
     setGameState(GAME_STATE.FINISHED)
   }
 
+  // App screens
   const introScreen = 
     <>
       <section className="intro-section">
         <h1>Trivia Game</h1>
         <p className="intro-description">Test your knowledge across many fields and industries.</p>
-        <button className="start-quiz-btn" onClick={getQuestions}><span className="play-icon">▶</span> Start quiz</button>
+        <button className="start-quiz-btn" onClick={getQuestions}><span className="play-icon">▶</span>Start quiz</button>
       </section>
       <section className="recent-scores-section">
         <div className="svg-icon-box">

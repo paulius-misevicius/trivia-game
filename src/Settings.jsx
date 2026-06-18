@@ -24,6 +24,7 @@ export default function Settings() {
         let GAME_SETTINGS_UPDATED = {...gameSettings}
         GAME_SETTINGS_UPDATED = {...GAME_SETTINGS_UPDATED, [event.target.name]: event.target.value}
         setGameSettings(GAME_SETTINGS_UPDATED)
+        localStorage.setItem("quizSettings", JSON.stringify(GAME_SETTINGS_UPDATED))
     }
 
     return (

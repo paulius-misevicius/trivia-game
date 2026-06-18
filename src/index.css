@@ -194,7 +194,7 @@ input[type="radio"]:checked + label {
 
 .play-icon {
   font-size: 1rem;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 .start-quiz-btn {
   width: 100%;
