@@ -15,11 +15,12 @@ export default function Question(props) {
     )
 
     return (
-        <section className="question-component">
-          <h2 className="question-name">{props.title}</h2>
-          <div className="question-answer-field">
-            {answersToRender}
-          </div>
-        </section>
+        <div className="question-component">
+            <p className="question-tag">QUESTION {props.index + 1} OUT OF {props.questionsLength}</p>
+            <h2>{props.title}</h2>
+            <div className="question-answer-field">
+                {answersToRender}
+            </div>
+        </div>
     )
 }

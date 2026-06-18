@@ -45,13 +45,17 @@ export default function App() {
     <Question 
   key={item.id} 
   id={item.id} 
+  index={index}
+  questionsLength={questions.length}
   title={item.question} 
   correctAnswer={item.correct_answer}
   answers={item.answers}
   userAnswers={submittedAnswers}
   />
   )
-  const latestScores = prevScoresRef.current.map((item, index) => <span key={nanoid()} className={clsx("user-score", {"latest-score" : index === 0})}>{item} </span>)
+  const latestScores = prevScoresRef.current.map((item, index) => 
+    <span key={nanoid()} className={clsx("user-score", {"latest-score" : index === 0})}>{item} </span>
+  )
 
   // Static values
   const loadSpinner = <TailSpin width="40" color="var(--primary-color)"/>
@@ -118,38 +122,41 @@ export default function App() {
         </div>
         <div>
           <p className="user-scores-label">Recent scores</p>
-          <p className="user-scores">{prevScoresRef.current.length > 0 ? latestScores : "No recent scores yet. Start a quiz to see your progress!"}</p>
+          <div className="user-scores">{prevScoresRef.current.length > 0 ? latestScores : "No recent scores yet. Start a quiz to see your progress!"}</div>
         </div>
       </section>
       <Settings />
     </>
 
   const quizScreen =
-    <form action={submitQuiz} className="form-game">
-      <div>
+  <>
+    <form id="quiz-form" action={submitQuiz} className="form-game">
         {questionsToRender}
-      </div>
-      {gameState === GAME_STATE.STARTED && <button className="submit-btn">Check answers</button>}
     </form>
-
-  const scoreScreen =
     <section className="score-section">
-      <button className="back-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Back to start</button>
-      <div className="align-sbs">
-        <p className="score">You scored {prevScoresRef.current[0]} correct answers</p>
-        <button onClick={getQuestions}>Play again</button>
-      </div>
+      {gameState === GAME_STATE.STARTED && 
+        <button type="submit" form="quiz-form">Check answers</button>
+      }
+      {gameState === GAME_STATE.FINISHED &&
+        <>
+          <div className="align-sbs">
+            <button onClick={getQuestions}>Play again</button>
+            <p className="score">You scored {prevScoresRef.current[0]} correct answers</p>
+          </div>
+          <button className="back-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Exit</button>
+        </>
+      }
     </section>
+  </>
 
   return (
     <GameSettingsContext.Provider value={{gameSettings, setGameSettings}}>
       <GameStateContext.Provider value={{gameState, GAME_STATE}}>
-        <main>
+        <main className={gameState !== GAME_STATE.INTRO ? "main-quiz" : "main-intro"}>
           {gameState === GAME_STATE.LOADING ? loadSpinner :
             <>
               {gameState === GAME_STATE.INTRO && introScreen}
               {gameState === GAME_STATE.STARTED || gameState === GAME_STATE.FINISHED ? quizScreen : null}
-              {gameState === GAME_STATE.FINISHED && scoreScreen}
             </>
           }
         </main>
