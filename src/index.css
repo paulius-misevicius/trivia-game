@@ -5,12 +5,14 @@
 }
 
 :root {
-  --bg-color: #f5f7fb;
+  --bg-color-primary:#f8f8f8;
+  --bg-color-secondary: #ffffff;
 
-  --text-color: #293264;
+  --text-color: #000000;
+  --text-muted: #767676;
 
-  --primary-color: #4d5b9e;
-  --secondary-color: #d6dbf5;
+  --primary-color: #000000;
+  --secondary-color: #e2e2e2;
 
   --success-color: #94d7a2;
   --failure-color: #f8bcbc;
@@ -22,6 +24,7 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color-primary);
   color: var(--text-color);
 }
 main {
@@ -29,30 +32,59 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg-color);
-  padding: 20px 40px;
+  background-color: var(--bg-color-secondary);
+  padding: 32px 40px;
   border-radius: 20px;
+  box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
 }
 h1 {
-  font-family: 'Karla', sans-serif;
-  font-weight: 700;
+  font-family: 'Darker Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
   margin-bottom: 8px;
 }
 h2 {
-  font-family: 'Karla', sans-serif;
-  font-weight: 700;
+  font-family: 'Darker Grotesque', sans-serif;
+  font-weight: 800;
+}
+p {
+  font-size: 0.875rem;
 }
 button {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Darker Grotesque', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding-bottom: 12px;
+  padding-top: 8px;
+  padding-inline: 24px;
+  border-radius: 12px;
   cursor: pointer;
-  border: none;
+  background-color: var(--primary-color);
+  color: var(--bg-color-secondary);
+  border: 1px solid var(--text-color);
+  transition: 0.1s ease-in-out;
+}
+button:hover{
+  background-color: var(--bg-color-secondary);
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  box-shadow: 0px 2px 2px #00000030, 0px 6px 6px #00000015;
+}
+input, select {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
 }
 
 .intro-section {
   text-align: center;
+  width: 100%;
+  margin-bottom: 32px;
 }
 .intro-description {
-  margin-bottom: 20px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-weight: 500;
 }
 
 .form-game {
@@ -78,33 +110,44 @@ input[type="radio"] {
   width: 0;
   height: 0;
 }
-label {
+.question-answer-field > label {
   font-size: 0.75rem;
   font-weight: 500;
   border: 1px solid var(--primary-color);
   border-radius: 8px;
   padding: 4px 20px;
   cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+.question-answer-field > label:hover {
+  background-color: var(--secondary-color);
+  border: 1px solid transparent;
 }
 input[type="radio"]:checked + label {
   background-color: var(--secondary-color);
   border: 1px solid transparent;
 }
 
-.answer-correct {
+.question-answer-field > .answer-correct,
+.question-answer-field > .answer-correct:hover {
   background-color: var(--success-color);
   border: 1px solid var(--success-color);
   cursor: default;
 }
-.answer-incorrect {
+.question-answer-field > .answer-disabled,
+.question-answer-field > .answer-disabled:hover {
+  opacity: 50%;
+  cursor: default;
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+}
+.question-answer-field > .answer-incorrect,
+.question-answer-field > .answer-incorrect:hover {
   background-color: var(--failure-color);
   border: 1px solid var(--failure-color);
   cursor: default;
 }
-.answer-disabled {
-  opacity: 50%;
-  cursor: default;
-}
+
 
 .score-section {
   width: 100%;
@@ -123,44 +166,119 @@ input[type="radio"]:checked + label {
 }
 
 .start-quiz-btn {
-  font-weight: 600;
+  width: 100%;
+}
+.play-icon {
+  font-size: 1rem;
+  margin-right: 6px;
+}
+.back-btn {
+  background-color: var(--bg-color-secondary);
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+}
+.back-btn:hover {
   background-color: var(--primary-color);
-  color: var(--bg-color);
-  padding: 8px 24px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  color: var(--bg-color-secondary);
+  border: 1px solid var(--text-color);
 }
 .submit-btn {
-  font-weight: 600;
-  background-color: var(--primary-color);
-  color: var(--bg-color);
-  padding: 8px 24px;
-  border-radius: 8px;
   margin-top: 24px;
-}
-.get-questions-btn {
-  font-weight: 600;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 8px 24px;
-  border-radius: 8px;
-  border: 1px solid var(--text-color);
 }
 
 .quiz-settings {
   display: flex;
   flex-direction: column;
   text-align: center;
+  width: 100%;
   gap: 16px;
-  margin-top: 28px;
+  margin-top: 32px;
+}
+.settings-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.settings-title::before,
+.settings-title::after {
+  content: "";
+  flex: 1;
+  height: 0.5px;
+  background: var(--secondary-color);
+}
+.settings-icon-p {
+  display: flex;
+  gap: 4px;
+}
+.settings-icon {
+  width: 13px;
+}
+.settings-p {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
 }
 .settings-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
 }
 .settings-label {
+  font-size: 0.875rem;
   border: none;
   padding: 0;
+  font-weight: 600;
+}
+.settings-number-input {
+  width: 15%;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--secondary-color);
+}
+.settings-select {
+  width: 70%;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--secondary-color);
+}
+
+.recent-scores-section {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+}
+.svg-icon-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-color);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.svg-icon {
+  width: 24px;
+}
+.user-scores-label {
+  font-weight: 600;
+}
+.user-scores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.75rem;
+  margin-top: 8px;
+  color: var(--text-muted)
+}
+.user-score {
+  border: 1px dashed var(--secondary-color);
+  border-radius: 4px;
+  padding: 2px 12px;
+}
+.latest-score {
+  color: var(--text-color);
+  border: 1px dashed var(--text-color);
+  font-weight: 400;
 }

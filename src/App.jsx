@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef, createContext } from "react"
+import { useState, useRef, createContext } from "react"
 import { nanoid } from "nanoid"
 import { TailSpin } from "react-loader-spinner"
+import clsx from "clsx"
 import he from "he"
 import Question from "./Question.jsx"
 import Settings from "./Settings.jsx"
@@ -30,7 +31,7 @@ export default function App() {
   const [gameSettings, setGameSettings] = useState(GAME_SETTINGS)
   const [questions, setQuestions] = useState([])
   const [submittedAnswers, setSubmittedAnswers] = useState([])
-  const prevScoresRef = useRef([])
+  const prevScoresRef = useRef(["2/5", "5/5", "1/5"])
 
   // Derived Values
 
@@ -103,6 +104,8 @@ export default function App() {
     setGameState(GAME_STATE.FINISHED)
   }
 
+  const latestScores = prevScoresRef.current.map((item, index) => <span key={nanoid()} className={clsx("user-score", {"latest-score" : index === 0})}>{item} </span>)
+
   console.log(prevScoresRef.current)
 
   return (
@@ -115,9 +118,17 @@ export default function App() {
                 <>
                   <section className="intro-section">
                     <h1>Trivia Game</h1>
-                    <p className="intro-description">Simple trivia quiz game built with React and Vite</p>
-                    <button className="start-quiz-btn" onClick={getQuestions}>Start quiz</button>
-                    <p>Recent scores: {prevScoresRef.current.join(" - ")}</p>
+                    <p className="intro-description">Test your knowledge across many fields and industries.</p>
+                    <button className="start-quiz-btn" onClick={getQuestions}><span className="play-icon">▶</span> Start quiz</button>
+                  </section>
+                  <section className="recent-scores-section">
+                    <div className="svg-icon-box">
+                      <svg className="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 7L14.1502 14.939C14.0125 15.0784 13.8489 15.189 13.6689 15.2644C13.4889 15.3398 13.296 15.3787 13.1011 15.3787C12.9063 15.3787 12.7133 15.3398 12.5333 15.2644C12.3533 15.189 12.1898 15.0784 12.052 14.939L8.95919 11.811C8.82146 11.6716 8.65791 11.561 8.47791 11.4856C8.2979 11.4102 8.10496 11.3713 7.91011 11.3713C7.71526 11.3713 7.52232 11.4102 7.34232 11.4856C7.16231 11.561 6.99877 11.6716 6.86103 11.811L2 16.1147" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M2 1.5V22.5" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M22 12V7H17" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+                    </div>
+                    <div>
+                      <p className="user-scores-label">Recent scores</p>
+                      <p className="user-scores">{prevScoresRef.current.length > 0 ? latestScores : "No recent scores yet. Start a quiz to see your progress!"}</p>
+                    </div>
                   </section>
                   <Settings />
                 </>}
@@ -130,10 +141,10 @@ export default function App() {
                 </form> : null}
               {gameState === GAME_STATE.FINISHED &&
                 <section className="score-section">
-                  <button className="start-quiz-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Back to start</button>
+                  <button className="back-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Back to start</button>
                   <div className="align-sbs">
                     <p className="score">You scored {prevScoresRef.current[0]} correct answers</p>
-                    <button className="get-questions-btn" onClick={getQuestions}>Play again</button>
+                    <button onClick={getQuestions}>Play again</button>
                   </div>
                 </section>}
             </>
