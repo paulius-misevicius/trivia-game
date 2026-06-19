@@ -193,7 +193,6 @@ input[type="radio"]:checked + label {
   align-items: center;
   gap: 20px;
 }
-
 .play-icon {
   width: 12px;
   margin-right: 8px;
@@ -320,6 +319,17 @@ input[type="radio"]:checked + label {
   font-weight: 400;
 }
 
+.error-message {
+  color: var(--failure-color);
+  font-weight: 500;
+}
+.error-text-color {
+  color: var(--failure-color);
+}
+.margin-t {
+  margin-top: 12px;
+}
+
 @media (min-width: 1024px) {
   .main-quiz {
     resize: horizontal;
@@ -329,7 +339,15 @@ input[type="radio"]:checked + label {
     max-width: 96vw;
   }
 }
-
+@media (max-width: 1024px) {
+  main, .main-intro {
+    padding: 20px 20px;
+    max-width: 96vw;
+  }
+  .main-quiz {
+    min-width: 96vw;
+  }
+}
 @media (max-width: 767px) {
   main, .main-intro {
     padding: 20px 20px;

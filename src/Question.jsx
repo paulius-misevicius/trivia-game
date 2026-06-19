@@ -1,7 +1,16 @@
 import Answer from "./Answer.jsx"
+import { GameStateContext } from "./App.jsx"
+import { useContext } from "react"
+import clsx from "clsx"
 import { nanoid } from "nanoid"
 
 export default function Question(props) {
+
+    const {gameState, GAME_STATE} = useContext(GameStateContext)
+
+    const questionTagStyles = clsx("question-tag", {
+        "error-text-color" : gameState === GAME_STATE.INCOMPLETE && props.userAnswers[props.index].answer === null
+    })
 
     const answersToRender = props.answers.map((item, index) => 
         <Answer 
@@ -16,7 +25,7 @@ export default function Question(props) {
 
     return (
         <div className="question-component">
-            <p className="question-tag">QUESTION {props.index + 1} OUT OF {props.questionsLength}</p>
+            <p className={questionTagStyles}>QUESTION {props.index + 1} OUT OF {props.questionsLength}</p>
             <h2>{props.title}</h2>
             <div className="question-answer-field">
                 {answersToRender}
