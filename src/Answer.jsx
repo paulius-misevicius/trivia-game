@@ -6,8 +6,8 @@ export default function Answer(props) {
 
     const {gameState, GAME_STATE} = useContext(GameStateContext)
 
-    const isAnswerUserGuessed = props.userAnswers.some(item => item.key === props.questionId && item.answer === props.answer)
-    const isAnswerCorrect = props.answer === props.correctAnswer
+    const isAnswerUserGuessed = props.userAnswers.some(item => item.key === props.questionId && item.answer === props.answersData.answer)
+    const isAnswerCorrect = props.answersData.answer === props.correctAnswer
 
     const answerStyle = clsx({
         "answer-correct" : isAnswerCorrect,
@@ -17,8 +17,16 @@ export default function Answer(props) {
 
     return (
         <>
-            <input type="radio" id={props.id} name={props.questionId} value={props.answer} disabled={gameState === GAME_STATE.FINISHED}></input>
-            <label className={gameState === GAME_STATE.FINISHED ? answerStyle : undefined} htmlFor={props.id}>{props.answer}</label>
+            <input 
+                onChange={() => props.toggleIsPressed(props.answersData.answerId)} 
+                type="radio" 
+                id={props.answersData.answerId} 
+                name={props.questionId} 
+                value={props.answersData.answer} 
+                disabled={gameState === GAME_STATE.FINISHED}
+                defaultChecked={props.answersData.pressed && gameState === GAME_STATE.INCOMPLETE ? true : null}
+            ></input>
+            <label className={gameState === GAME_STATE.FINISHED ? answerStyle : undefined} htmlFor={props.answersData.answerId}>{props.answersData.answer}</label>
         </>
     )
 }

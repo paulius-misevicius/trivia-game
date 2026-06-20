@@ -157,8 +157,8 @@ input[type="radio"]:checked + label {
   border: 1px solid transparent;
 }
 
-.question-answer-field > .answer-correct,
-.question-answer-field > .answer-correct:hover {
+.question-component > .question-answer-field > .answer-correct,
+.question-component > .question-answer-field > .answer-correct:hover {
   background-color: var(--success-color);
   border: 1px solid var(--success-color);
   cursor: default;
@@ -170,8 +170,8 @@ input[type="radio"]:checked + label {
   background-color: transparent;
   border: 1px solid var(--primary-color);
 }
-.question-answer-field > .answer-incorrect,
-.question-answer-field > .answer-incorrect:hover {
+.question-component > .question-answer-field > .answer-incorrect,
+.question-component > .question-answer-field > .answer-incorrect:hover {
   background-color: var(--failure-color);
   border: 1px solid var(--failure-color);
   cursor: default;

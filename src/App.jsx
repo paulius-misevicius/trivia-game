@@ -52,18 +52,15 @@ export default function App() {
   type=${gameSettings.type}`
   
   const questionsToRender = questions.map((item, index) => 
-    <Question 
-  key={item.id} 
-  id={item.id} 
-  index={index}
-  questionsLength={questions.length}
-  title={item.question} 
-  correctAnswer={item.correct_answer}
-  answers={item.answers}
-  userAnswers={submittedAnswers}
-  />
+    <Question
+      questionItem={item} 
+      key={item.id} 
+      index={index}
+      questionsLength={questions.length}
+      userAnswers={submittedAnswers}
+    />
   )
-
+  console.log(questions)
   const latestScores = prevScoresRef.current.map((item, index) => 
     <span key={nanoid()} className={clsx("user-score", {"latest-score" : index === 0})}>{item}</span>
   )
@@ -96,7 +93,12 @@ export default function App() {
           ...item,
           id: nanoid(),
           question: he.decode(item.question),
-          answers: shuffledAnswers.map(item => he.decode(item))
+          correct_answer: he.decode(item.correct_answer),
+          answers: shuffledAnswers.map(item => ({
+            answer: he.decode(item), 
+            pressed: false,
+            answerId: nanoid() 
+          }))
         }
       })
       setQuestions(updatedQuestions)
