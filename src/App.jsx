@@ -3,8 +3,8 @@ import { nanoid } from "nanoid"
 import { TailSpin } from "react-loader-spinner"
 import clsx from "clsx"
 import he from "he"
-import Question from "./Question.jsx"
-import Settings from "./Settings.jsx"
+import Question from "./components/Question.jsx"
+import Settings from "./components/Settings.jsx"
 
 export const GameStateContext = createContext(null)
 export const GameSettingsContext = createContext(null)

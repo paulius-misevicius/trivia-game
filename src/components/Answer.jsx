@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { GameStateContext } from "./App.jsx"
+import { GameStateContext } from "../App.jsx"
 import clsx from "clsx"
 
 export default function Answer(props) {

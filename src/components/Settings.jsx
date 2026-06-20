@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { GameSettingsContext } from "./App"
+import { GameSettingsContext } from "../App"
 
 export default function Settings() {
 

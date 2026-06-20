@@ -1,5 +1,5 @@
 import Answer from "./Answer.jsx"
-import { GameStateContext } from "./App.jsx"
+import { GameStateContext } from "../App.jsx"
 import { useContext, useState } from "react"
 import clsx from "clsx"
 import { nanoid } from "nanoid"
