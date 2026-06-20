@@ -33,7 +33,7 @@ export default function Question(props) {
     return (
         <fieldset className="question-component">
             <p className={questionTagStyles}>QUESTION {props.index + 1} OUT OF {props.questionsLength}</p>
-            <legend>{props.questionItem.question}</legend>
+            <h2>{props.questionItem.question}</h2>
             <div className="question-answer-field">
                 {answersToRender}
             </div>
