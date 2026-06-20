@@ -67,8 +67,8 @@ export default function App() {
 
   // Static values
   const loadSpinner = <TailSpin width="40" color="var(--primary-color)"/>
-  const playIcon = <svg className="play-icon" viewBox="-3 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="currentColor"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>play</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -571.000000)" fill="currentColor"> <path d="M440.415,583.554 L421.418,571.311 C420.291,570.704 419,570.767 419,572.946 L419,597.054 C419,599.046 420.385,599.36 421.418,598.689 L440.415,586.446 C441.197,585.647 441.197,584.353 440.415,583.554" id="play" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
-  const scoresIcon = <svg className="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 7L14.1502 14.939C14.0125 15.0784 13.8489 15.189 13.6689 15.2644C13.4889 15.3398 13.296 15.3787 13.1011 15.3787C12.9063 15.3787 12.7133 15.3398 12.5333 15.2644C12.3533 15.189 12.1898 15.0784 12.052 14.939L8.95919 11.811C8.82146 11.6716 8.65791 11.561 8.47791 11.4856C8.2979 11.4102 8.10496 11.3713 7.91011 11.3713C7.71526 11.3713 7.52232 11.4102 7.34232 11.4856C7.16231 11.561 6.99877 11.6716 6.86103 11.811L2 16.1147" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M2 1.5V22.5" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M22 12V7H17" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+  const playIcon = <svg className="play-icon" aria-hidden="true" viewBox="-3 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="currentColor"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>play</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-419.000000, -571.000000)" fill="currentColor"> <path d="M440.415,583.554 L421.418,571.311 C420.291,570.704 419,570.767 419,572.946 L419,597.054 C419,599.046 420.385,599.36 421.418,598.689 L440.415,586.446 C441.197,585.647 441.197,584.353 440.415,583.554" id="play" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+  const scoresIcon = <svg className="svg-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 7L14.1502 14.939C14.0125 15.0784 13.8489 15.189 13.6689 15.2644C13.4889 15.3398 13.296 15.3787 13.1011 15.3787C12.9063 15.3787 12.7133 15.3398 12.5333 15.2644C12.3533 15.189 12.1898 15.0784 12.052 14.939L8.95919 11.811C8.82146 11.6716 8.65791 11.561 8.47791 11.4856C8.2979 11.4102 8.10496 11.3713 7.91011 11.3713C7.71526 11.3713 7.52232 11.4102 7.34232 11.4856C7.16231 11.561 6.99877 11.6716 6.86103 11.811L2 16.1147" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M2 1.5V22.5" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M22 12V7H17" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
   
   // Functions
   async function getQuestions() {
@@ -142,7 +142,7 @@ export default function App() {
       <section className="intro-section">
         <h1>Trivia Game</h1>
         <p className="intro-description">Test your knowledge across many fields and industries.</p>
-        <button className="start-quiz-btn" onClick={getQuestions}>{playIcon}Start quiz</button>
+        <button aria-label="Start quiz" className="start-quiz-btn" onClick={getQuestions}>{playIcon}Start quiz</button>
         {gameState === GAME_STATE.ERROR && <p className="error-message margin-t">{errorMessage}</p>}
       </section>
       <section className="recent-scores-section">
@@ -167,22 +167,22 @@ export default function App() {
           {gameState === GAME_STATE.STARTED || gameState === GAME_STATE.INCOMPLETE
           ? 
             <>
-              <button type="submit" form="quiz-form">Check answers</button>
+              <button aria-label="Check Answers" type="submit" form="quiz-form">Check answers</button>
               {gameState === GAME_STATE.INCOMPLETE && <p className="error-message">{errorMessage}</p>}
             </>
           :
             <>
-              <button onClick={getQuestions}>Play again</button>
+              <button aria-label="Play again" onClick={getQuestions}>Play again</button>
               <p className="score">{`You scored ${prevScoresRef.current[0]} correct answers`}</p>
             </>
           }
         </div>
         {gameState === GAME_STATE.FINISHED &&
-          <button className="back-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Exit</button>
+          <button aria-label="Exit quiz" className="back-btn" onClick={() => setGameState(GAME_STATE.INTRO)}>Exit</button>
         }
       </section>
     </>
-
+  console.log(gameState)
   return (
     <GameSettingsContext.Provider value={{gameSettings, setGameSettings}}>
       <GameStateContext.Provider value={{gameState, GAME_STATE}}>
