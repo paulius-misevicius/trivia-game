@@ -44,6 +44,7 @@ main {
 }
 .main-intro {
   padding: 12px 36px 28px 36px;
+  max-width: 500px;
 }
 h1 {
   font-family: 'Darker Grotesque', sans-serif;
@@ -281,6 +282,7 @@ input[type="radio"]:checked + label {
 
 .recent-scores-section {
   display: flex;
+  overflow: hidden;
   width: 100%;
   justify-content: flex-start;
   align-items: center;
@@ -300,13 +302,21 @@ input[type="radio"]:checked + label {
 .user-scores-label {
   font-weight: 600;
 }
+.recent-scores-label-scores {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 .user-scores {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
   gap: 8px;
   font-size: 0.75rem;
   margin-top: 8px;
-  color: var(--text-muted)
+  color: var(--text-muted);
+  -webkit-mask-image: linear-gradient(to right, white 80%, transparent 100%);
+  mask-image: linear-gradient(to right, white 80%, transparent 100%);
 }
 .user-score {
   border: 1px dashed var(--secondary-color);
@@ -342,10 +352,10 @@ input[type="radio"]:checked + label {
 @media (max-width: 1024px) {
   main, .main-intro {
     padding: 20px 20px;
-    max-width: 96vw;
   }
   .main-quiz {
     min-width: 96vw;
+    max-width: 96vw;
   }
 }
 @media (max-width: 767px) {

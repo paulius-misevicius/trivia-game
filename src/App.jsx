@@ -149,7 +149,7 @@ export default function App() {
         <div className="svg-icon-box">
           {scoresIcon}
         </div>
-        <div>
+        <div className="recent-scores-label-scores">
           <p className="user-scores-label">Recent scores</p>
           <div className="user-scores">{prevScoresRef.current.length > 0 ? latestScores : "No recent scores yet. Start a quiz to see your progress!"}</div>
         </div>
