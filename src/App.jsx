@@ -196,7 +196,7 @@ export default function App() {
   return (
     <GameSettingsContext.Provider value={{gameSettings, setGameSettings}}>
       <GameStateContext.Provider value={{gameState, GAME_STATE}}>
-        {gameState === GAME_STATE.INTRO && toggleButton}
+        {gameState === GAME_STATE.INTRO || gameState === GAME_STATE.ERROR ? toggleButton : null}
         <main className={gameState === GAME_STATE.INTRO || gameState === GAME_STATE.ERROR ? "main-intro" : "main-quiz"}>
           {gameState === GAME_STATE.LOADING ? loadSpinner :
             <>
